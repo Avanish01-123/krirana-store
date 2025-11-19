@@ -269,14 +269,30 @@ document.getElementById('place-order').onclick = ()=>{
 }
 
 /* ---------- Admin Modal & Security ---------- */
-const adminModal = document.getElementById('admin-modal');
-document.getElementById('admin-btn').onclick = ()=>{
-  const pass = prompt('Enter admin password (default: admin)');
-  if(pass!==null && pass==='admin'){adminModal.classList.add('show'); startAdminAutoRefresh(); renderAdminList(); renderOrderList(); renderCharts(); }
-  else if(pass!==null) alert('Wrong password')
-}
-document.getElementById('close-admin').onclick = ()=>{adminModal.classList.remove('show'); stopAdminAutoRefresh();}
+const adminBtn = document.getElementById("admin-btn");
 
+// Step: Admin login access (special shortcut key)
+document.addEventListener("keydown", (e)=>{
+    if(e.key === "A"){   // Press A to open admin login
+        const pass = prompt("Enter Admin Password:");
+        if(pass === "admin"){
+            adminBtn.style.display = "inline-block"; // show button only after login
+            adminModal.classList.add("show");
+        } else {
+            alert("Wrong password!");
+        }
+    }
+});
+
+// When admin clicks button again, ask password again for safety
+adminBtn.onclick = ()=>{
+    const pass = prompt("Enter Admin Password:");
+    if(pass === "admin"){
+        adminModal.classList.add("show");
+    } else {
+        alert("Wrong password");
+    }
+};
 /* ---------- Admin: Add/Edit Products ---------- */
 let editingId = null;
 document.getElementById('save-product').onclick = ()=>{
@@ -522,3 +538,4 @@ window.addEventListener('storage', (e)=>{ if([K_PRODUCTS,K_ORDERS,K_CART].includ
 </script>
 </body>
 </html>
+
